@@ -95,4 +95,34 @@ class LinkedList
 
     result + 'nil'
   end
+
+  def insert_at(index, *values)
+    raise IndexError if index > size || index < 0
+
+    values.each_with_index do |value, i|
+      if index + i == 0
+        prepend(value)
+      else
+        current = @head
+        (index - 1).times { current = current.next_node }
+
+        new_node = Node.new(value)
+        new_node.next_node = current.next_node
+        current.next_node = new_node
+      end
+    end
+  end
+
+  def remove_at(index)
+    raise IndexError if index >= size || index < 0
+
+    previous = nil
+    current = @head
+    index.times do
+      previous = current
+      current = current.next_node
+    end
+
+    previous.next_node = current.next_node
+  end
 end
